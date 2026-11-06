@@ -43,7 +43,7 @@ Hibernate actualiza el esquema con `ddl-auto=update` para facilitar el desarroll
 
 ## Webhook de salida: Spring Boot -> n8n
 
-Spring Boot envía un POST a `N8N_WEBHOOK_URL` con esta estructura:
+Spring Boot envía un POST a `N8N_WEBHOOK_URL` con esta estructura. En el nodo Webhook de n8n configura la respuesta **When Last Node Finishes** y termina el flujo con el nodo que devuelve la respuesta HTTP; así el cursor solo avanza cuando el flujo haya terminado correctamente:
 
     {
       "batchId": "uuid-de-la-ejecucion",
