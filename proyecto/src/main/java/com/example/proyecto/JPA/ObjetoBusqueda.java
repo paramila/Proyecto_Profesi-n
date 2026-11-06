@@ -1,6 +1,8 @@
 package com.example.proyecto.JPA;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @Entity
 public class ObjetoBusqueda {
@@ -17,8 +19,19 @@ public class ObjetoBusqueda {
     @JoinColumn(name = "persona_dni")
     private Persona persona;
 
+    /**
+     * Marca la última modificación realizada a través de JPA.
+     * Se almacena en UTC para que el cursor de sincronización sea consistente.
+     */
+    private LocalDateTime updatedAt;
 
     public ObjetoBusqueda() {}
+
+    @PrePersist
+    @PreUpdate
+    private void actualizarFechaModificacion() {
+        this.updatedAt = LocalDateTime.now(ZoneOffset.UTC);
+    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -34,4 +47,7 @@ public class ObjetoBusqueda {
 
     public Persona getPersona() { return persona; }
     public void setPersona(Persona persona) { this.persona = persona; }
+
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
