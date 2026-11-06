@@ -1,0 +1,22 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: proyecto-profesion-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-proyecto_profesion}
+      MYSQL_USER: ${DB_USERNAME:-proyecto}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-cambia_esta_password}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-cambia_root_password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql_data:
