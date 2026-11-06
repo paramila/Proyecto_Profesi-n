@@ -10,6 +10,13 @@ public class ObjetoEncontrado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Identificador estable generado por n8n. Permite que los reintentos
+     * del webhook actualicen el mismo registro en lugar de duplicarlo.
+     */
+    @Column(unique = true, length = 120)
+    private String externalId;
+
     private String nombre;
     private String color;
     private String tipo;
@@ -19,11 +26,13 @@ public class ObjetoEncontrado {
 
     private LocalDate fechaEncontrado;
 
-
     public ObjetoEncontrado() {}
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+
+    public String getExternalId() { return externalId; }
+    public void setExternalId(String externalId) { this.externalId = externalId; }
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
